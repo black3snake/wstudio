@@ -1,0 +1,59 @@
+@import "variables";
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Montserrat, sans-serif;
+  font-weight: 400;
+}
+
+.container {
+  max-width: $container-width;
+  margin: 0 auto;
+}
+
+.mat-mdc-menu-panel {
+  .mat-mdc-menu-content {
+    padding: 0;
+    .mat-mdc-menu-item-text {
+      a, span {
+        font-family: Montserrat, sans-serif;
+        font-weight: 500;
+        text-decoration: none;
+        color: $color-main;
+      }
+    }
+  }
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: $color-blue;
+  font-size: 16px;
+  div {
+    font-family: Jost, sans-serif;
+    font-weight: 400;
+    padding: 0 2px;
+    span {
+      font-weight: 500;
+    }
+  }
+}
+.button {
+  text-align: center;
+  border-radius: 5px;
+  padding: 10px;
+  background: $color-blue;
+  box-sizing: border-box;
+  cursor: pointer;
+  border: none;
+  font-family: Montserrat, sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  color: #fff;
+}

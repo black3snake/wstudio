@@ -21,6 +21,11 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/wstudio",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/styles"
+              ]
+            },
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -33,7 +38,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/assets/styles/styles.scss"
             ],
             "scripts": []
           },
@@ -48,7 +54,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumError": "5kb"
                 }
               ],
               "outputHashing": "all"
@@ -85,6 +91,11 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/styles"
+              ]
+            },
             "polyfills": [
               "zone.js",
               "zone.js/testing"
@@ -96,7 +107,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/assets/styles/styles.scss"
             ],
             "scripts": []
           }

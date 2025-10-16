@@ -8,6 +8,9 @@ import { LayoutComponent } from './shared/layout/layout.component';
 import {SharedModule} from "./shared/shared.module";
 import {FooterComponent} from "./shared/footer/footer.component";
 import {HeaderComponent} from "./shared/header/header.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatMenuModule} from "@angular/material/menu";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -18,9 +21,12 @@ import {HeaderComponent} from "./shared/header/header.component";
     HeaderComponent
   ],
   imports: [
+    MatMenuModule,
+    MatSnackBarModule,
     SharedModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
