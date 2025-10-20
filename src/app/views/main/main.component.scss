@@ -1,9 +1,13 @@
 @import "variables";
+@import "mixins";
+
 .main {
   padding-bottom: 120px;
+
   .container {
     .main__carousel {
-        position: relative;
+      position: relative;
+
       .main__carousel-item {
         height: 500px;
         width: 100%;
@@ -11,6 +15,7 @@
         .main__carousel-back {
           height: 100%;
         }
+
         .main__carousel-block {
           position: absolute;
           top: 100px;
@@ -24,6 +29,7 @@
             letter-spacing: 0.4em;
             text-transform: uppercase;
           }
+
           .main__carousel-block-title {
             color: #ffffff;
             width: 610px;
@@ -36,6 +42,7 @@
               color: $color-blue; // перенес в глобал.
             }
           }
+
           .main__carousel-block-description {
             width: 456px;
             color: white;
@@ -44,6 +51,7 @@
             line-height: 31.20px;
             margin-top: 20px;
           }
+
           .button {
             margin-top: 40px;
             width: 163px;
@@ -56,6 +64,7 @@
 
       .main__carousel-arrows {
         display: flex;
+
         a {
           top: calc(50% - 7px);
           display: flex;
@@ -66,6 +75,7 @@
             left: 10px;
             z-index: 100;
           }
+
           &.move-forward {
             right: 10px;
             z-index: 100;
@@ -73,11 +83,13 @@
         }
       }
     }
-  };
+  }
+;
 }
 
 .services {
   padding-bottom: 120px;
+
   .container {
     .services__title {
       color: $color-blue;
@@ -86,14 +98,140 @@
       font-weight: 400;
       margin-bottom: 40px;
     }
+
     .services__items {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
+    }
+  }
+}
 
+.info {
+  padding-bottom: 120px;
+
+  .container {
+    display: flex;
+    align-items: flex-start;
+    gap: 68px;
+
+    .info__left {
+      height: 453px;
+      width: 460px;
+
+      img {
+        max-height: 100%;
+      }
 
     }
 
+    .info__right {
+      .info__right_title {
+        color: $color-blue;
+        font-size: 38px;
+        font-family: Lora, sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+      }
+
+      .info__right_text {
+        max-width: 633px;
+        color: $color-text;
+        font-size: 14px;
+        font-family: Montserrat, sans-serif;
+        font-weight: 400;
+        line-height: 18.20px;
+        margin-bottom: 38px;
+
+        span {
+          font-weight: 500;
+        }
+      }
+
+      .info__right_advantages-title {
+        color: $color-blue;
+        font-size: 26px;
+        font-family: Lora, sans-serif;
+        font-weight: 400;
+        margin-bottom: 20px;
+      }
+
+      .info__right_advantages-items {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px 70px;
+
+        .info__right_advantages-item {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+
+          .info__right_advantages-item-image {
+            display: flex;
+            border-radius: 50%;
+            background-color: #B9D5FD;
+            width: 40px;
+            height: 40px;
+            justify-content: center;
+            color: $color-blue;
+            font-size: 50px;
+            font-family: Lora, sans-serif;
+            font-weight: 500;
+
+            .info__right_advantages-item-image-digits {
+              display: inline-block;
+              margin-top: -20px;
+            }
+          }
+        }
+
+        .info__right_advantages-item-text {
+          width: 256px;
+          color: $color-text;
+          font-size: 14px;
+          font-family: Montserrat, sans-serif;
+          line-height: 130%;
+
+          span {
+            font-weight: 500;
+          }
+        }
+      }
+    }
+  }
+}
+
+.articles {
+  padding-bottom: 120px;
+  .container {
+    .articles__title {
+      @include head-lora-38;
+      margin-bottom: 40px;
+    }
+    .articles__items {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+
+    }
+    .articles__path {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      span {
+        text-decoration: underline;
+        text-decoration-skip-ink: none;
+      }
+      svg {
+        margin-left: 14px;
+      }
+    }
+
+    a:visited {
+      color: rgb(112, 159, 220)
+    }
 
   }
 }

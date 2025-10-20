@@ -52,3 +52,64 @@
     </div>
   </div>
 </section>
+
+<section class="info">
+  <div class="container">
+    <div class="info__left">
+      <img src="./assets/images/pages/info_img.png" alt="image info">
+    </div>
+    <div class="info__right">
+      <div class="info__right_title">Кто мы и чем мы занимаемся?</div>
+      <div class="info__right_text"><span>АйтиШторм</span> — это ваш помощник №1 при решении таких вопросов, как продвижение в сети, разработка сайтов для бизнеса и личного бренда, сторисмейкинг, копирайтинг, маркетинг, разработка визуальной концепции и создание инфопродуктов. Компания была основана в 2019 году и за всё это время смогла выйти в ТОП-10 агенств, предлагающих услуги продвижения в сети.</div>
+      <div class="info__right_advantages-title">Наши преимущества</div>
+      <div class="info__right_advantages-items">
+
+        <div class="info__right_advantages-item">
+          <div class="info__right_advantages-item-image">
+            <div class="info__right_advantages-item-image-digits">1</div>
+          </div>
+          <div class="info__right_advantages-item-text"><span>Мастерски вовлекаем аудиториюв процесс.</span> Мы увеличиваем процент вовлечённости за короткий промежуток времени.</div>
+        </div>
+        <div class="info__right_advantages-item">
+          <div class="info__right_advantages-item-image">
+            <div class="info__right_advantages-item-image-digits">2</div>
+          </div>
+          <div class="info__right_advantages-item-text"><span>Разрабатываем бомбическую визуальную концепцию.</span> Наши специалисты знают как создать уникальный образ вашего проекта.</div>
+        </div>
+        <div class="info__right_advantages-item">
+          <div class="info__right_advantages-item-image">
+            <div class="info__right_advantages-item-image-digits">3</div>
+          </div>
+          <div class="info__right_advantages-item-text"><span>Создаём мощные воронки с помощью текстов.</span> Наши копирайтеры создают не только вкусные текста, но и классные воронки.</div>
+        </div>
+        <div class="info__right_advantages-item">
+          <div class="info__right_advantages-item-image">
+            <div class="info__right_advantages-item-image-digits">4</div>
+          </div>
+          <div class="info__right_advantages-item-text"><span>Помогаем продавать больше.</span> Мы не только помогаем разработать стратегию по продажам, но также корректируем её под нужды заказчика.</div>
+        </div>
+
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="articles">
+  <div class="container">
+    <div class="articles__title">Популярные статьи из блога</div>
+    <div class="articles__items">
+
+      <app-article-card *ngFor="let article of articles" [article]="article"></app-article-card>
+
+    </div>
+    <a routerLink="/" class="articles__path">
+      <span>Перейти в блог</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5.44392 1C5.59871 1 5.75349 1.05652 5.87569 1.17765L11.1873 6.44254C12.0508 7.29849 12.0508 8.70353 11.1873 9.55948L5.87569 14.8244C5.63944 15.0585 5.2484 15.0585 5.01215 14.8244C4.7759 14.5902 4.7759 14.2026 5.01215 13.9684L10.3238 8.70353C10.7148 8.31593 10.7148 7.68608 10.3238 7.29849L5.01215 2.0336C4.7759 1.79942 4.7759 1.41182 5.01215 1.17765C5.13435 1.0646 5.28914 1 5.44392 1Z" fill="#709FDC"/>
+      </svg>
+    </a>
+
+  </div>
+</section>

@@ -1,0 +1,12 @@
+<div class="articles__item">
+  <div class="articles__item-image" [style.background-image]="'url(/assets/images/article/' + article.image +')'"></div>
+  <span class="articles__item-category">{{article.category}}</span>
+  <div class="articles__item-footer">
+    <div class="articles__item-footer-top">
+      <div class="articles__item-footer-title">{{article.title}}</div>
+      <div class="articles__item-footer-text">{{article.description}}</div>
+    </div>
+    <a href="#">Читать дальше</a>
+  </div>
+</div>
+

@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatMenuModule} from "@angular/material/menu";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {CarouselModule} from "ngx-owl-carousel-o";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {CarouselModule} from "ngx-owl-carousel-o";
     HeaderComponent
   ],
   imports: [
+    HttpClientModule,
     MatMenuModule,
     MatSnackBarModule,
     CarouselModule,
