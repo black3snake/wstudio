@@ -31,13 +31,21 @@
             font-weight: 400;
             font-size: 50px;
             line-height: 65px;
-            margin-bottom: 40px;
 
             span {
-              color: $color-blue;
+              color: $color-blue; // перенес в глобал.
             }
           }
+          .main__carousel-block-description {
+            width: 456px;
+            color: white;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 31.20px;
+            margin-top: 20px;
+          }
           .button {
+            margin-top: 40px;
             width: 163px;
             font-size: 16px;
             font-weight: 400;
@@ -56,12 +64,36 @@
 
           &.move-backward {
             left: 10px;
+            z-index: 100;
           }
           &.move-forward {
             right: 10px;
+            z-index: 100;
           }
         }
       }
     }
   };
+}
+
+.services {
+  padding-bottom: 120px;
+  .container {
+    .services__title {
+      color: $color-blue;
+      font-size: 38px;
+      font-family: Lora, sans-serif;
+      font-weight: 400;
+      margin-bottom: 40px;
+    }
+    .services__items {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+
+
+    }
+
+
+  }
 }

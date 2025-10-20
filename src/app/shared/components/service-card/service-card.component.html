@@ -1,0 +1,10 @@
+<div class="services__item">
+  <div class="services__item-image" [style.background-image]="'url(/assets/images/services/' + serviceM.image +')'"></div>
+  <div class="services__item-title">{{serviceM.title}}</div>
+  <div class="services__item-text">{{serviceM.text}}</div>
+  <div class="services__item-action">
+    <div class="services__item-action-price">От {{serviceM.price | currency: 'RUB':'symbol-narrow': '3.0' | cleanCurrency}} </div>
+    <button class="button" [routerLink]="serviceM.url">Подробнее</button>
+  </div>
+</div>
+

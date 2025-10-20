@@ -2,6 +2,8 @@ import {Component, inject, OnInit} from '@angular/core';
 import {OwlOptions} from "ngx-owl-carousel-o";
 import {SliderMainDbService} from "../../shared/services/slider-main-db.service";
 import {SliderMainType} from "../../../types/slider-main.type";
+import {ServiceDbService} from "../../shared/services/service-db.service";
+import {ServiceCardType} from "../../../types/service-card.type";
 
 @Component({
   selector: 'app-main',
@@ -10,15 +12,16 @@ import {SliderMainType} from "../../../types/slider-main.type";
 })
 export class MainComponent implements OnInit {
   topSliders: SliderMainType[] = [];
+  servicesMain: ServiceCardType[] = [];
   customOptionsMain: OwlOptions = {
     loop: true,
     mouseDrag: false,
     touchDrag: false,
     pullDrag: false,
-    margin: 26,
-    dots: false,
+    dots: true,
     navSpeed: 700,
-    navText: ['', ''],
+    navText: ['',''],
+    dotsEach: true,
     responsive: {
       0: {
         items: 1
@@ -30,15 +33,19 @@ export class MainComponent implements OnInit {
         items: 1
       },
     },
-    nav: true,
+    nav: false,
   }
 
-  slidersMain = inject(SliderMainDbService);
+  private slidersMain = inject(SliderMainDbService);
+  private servicesDbServices = inject(ServiceDbService);
 
   ngOnInit(): void {
     this.topSliders = this.slidersMain.getSliderMain();
+    this.servicesMain = this.servicesDbServices.getServicesMain();
 
   }
+
+
 
 
 }
