@@ -7,6 +7,8 @@ import {ServiceCardType} from "../../../types/service-card.type";
 import {ArticleType} from "../../../types/article.type";
 import {ArticleService} from "../../shared/services/article.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ReviewService} from "../../shared/services/review.service";
+import {ReviewCardType} from "../../../types/review-card.type";
 
 @Component({
   selector: 'app-main',
@@ -14,8 +16,7 @@ import {HttpErrorResponse} from "@angular/common/http";
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-  topSliders: SliderMainType[] = [];
-  servicesMain: ServiceCardType[] = [];
+
   customOptionsMain: OwlOptions = {
     loop: true,
     mouseDrag: false,
@@ -38,15 +39,42 @@ export class MainComponent implements OnInit {
     },
     nav: false,
   }
+  customOptionsReviews: OwlOptions = {
+    loop: true,
+    mouseDrag: false,
+    touchDrag: false,
+    pullDrag: false,
+    margin: 25,
+    dots: false,
+    navSpeed: 700,
+    navText: ['', ''],
+    responsive: {
+      0: {
+        items: 1
+      },
+      400: {
+        items: 2
+      },
+      740: {
+        items: 3
+      },
+    },
+    nav: false,
+  }
+  topSliders: SliderMainType[] = [];
+  servicesMain: ServiceCardType[] = [];
   articles: ArticleType[] = [];
+  reviews: ReviewCardType[] = [];
 
   private slidersMain = inject(SliderMainDbService);
   private servicesDbServices = inject(ServiceDbService);
   private articleService = inject(ArticleService);
+  private reviewService = inject(ReviewService);
 
   ngOnInit(): void {
     this.topSliders = this.slidersMain.getSliderMain();
     this.servicesMain = this.servicesDbServices.getServicesMain();
+    this.reviews = this.reviewService.getReviews();
 
     this.articleService.getTopArticles()
       .subscribe({

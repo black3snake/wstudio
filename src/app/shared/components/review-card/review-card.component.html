@@ -1,0 +1,7 @@
+<div *ngIf="review" class="reviews__item">
+  <div class="reviews__item-head">
+    <div class="reviews__item-image" [style.background-image]="'url(/assets/images/reviews/' + review.image +')'"></div>
+    <div class="reviews__item-name">{{review.name}}</div>
+  </div>
+  <div class="reviews__item-text">{{review.text}}</div>
+</div>

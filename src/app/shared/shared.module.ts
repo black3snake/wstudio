@@ -5,6 +5,7 @@ import { ServiceCardComponent } from './components/service-card/service-card.com
 import {RouterLink} from "@angular/router";
 import { CleanCurrencyPipe } from './pipes/clean-currency.pipe';
 import { ArticleCardComponent } from './components/article-card/article-card.component';
+import { ReviewCardComponent } from './components/review-card/review-card.component';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { ArticleCardComponent } from './components/article-card/article-card.com
     ServiceCardComponent,
     CleanCurrencyPipe,
     ArticleCardComponent,
+    ReviewCardComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +23,7 @@ import { ArticleCardComponent } from './components/article-card/article-card.com
     SaveHtmlPipe,
     ServiceCardComponent,
     ArticleCardComponent,
+    ReviewCardComponent,
   ]
 })
 export class SharedModule { }

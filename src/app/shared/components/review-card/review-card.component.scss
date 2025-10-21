@@ -1,0 +1,37 @@
+@import "variables";
+
+.reviews__item {
+  width: 396px;
+  height: 267px;
+  padding: 30px;
+  border-radius: 5px;
+  border: 2px solid $color-blue;
+  box-sizing: border-box;
+
+  .reviews__item-head {
+    display: flex;
+    align-items: center;
+
+    .reviews__item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin-right: 26px;
+    }
+    .reviews__item-name {
+      color: $color-blue;
+      font-size: 18px;
+      font-family: Montserrat, sans-serif;
+      font-weight: 600;
+    }
+  }
+  .reviews__item-text {
+    margin-top: 15px;
+    color: $color-main;
+    font-size: 16px;
+    line-height: 22.40px;
+  }
+}

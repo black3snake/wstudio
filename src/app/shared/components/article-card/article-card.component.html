@@ -1,4 +1,4 @@
-<div class="articles__item">
+<div *ngIf="article" class="articles__item">
   <div class="articles__item-image" [style.background-image]="'url(/assets/images/article/' + article.image +')'"></div>
   <span class="articles__item-category">{{article.category}}</span>
   <div class="articles__item-footer">

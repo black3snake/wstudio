@@ -1,4 +1,4 @@
-<div class="services__item">
+<div *ngIf="serviceM" class="services__item">
   <div class="services__item-image" [style.background-image]="'url(/assets/images/services/' + serviceM.image +')'"></div>
   <div class="services__item-title">{{serviceM.title}}</div>
   <div class="services__item-text">{{serviceM.text}}</div>
