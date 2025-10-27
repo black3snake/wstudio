@@ -1,0 +1,21 @@
+@import "auth-form";
+
+.signup {
+  padding: 120px 0;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+
+    .auth__form {
+      margin-top: 0;
+
+      .auth__form-action {
+
+        button {
+          width: 422px;
+        }
+      }
+    }
+  }
+}

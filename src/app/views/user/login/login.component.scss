@@ -1,0 +1,22 @@
+@import "auth-form";
+
+.login {
+  padding-top: 106px;
+  padding-bottom: 92px;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    //height: 390px;
+
+    .auth__form {
+
+      .auth__form-action {
+
+        button {
+          width: 422px;
+        }
+      }
+    }
+  }
+}

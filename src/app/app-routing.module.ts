@@ -9,6 +9,8 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       {path: '', component: MainComponent},
+      {path: '', loadChildren:() => import('./views/user/user.module').then(m => m.UserModule)},
+        // canActivate: [authForwardGuard] },
     ]
 
   },
