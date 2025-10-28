@@ -6,6 +6,7 @@ import {RouterLink} from "@angular/router";
 import { CleanCurrencyPipe } from './pipes/clean-currency.pipe';
 import { ArticleCardComponent } from './components/article-card/article-card.component';
 import { ReviewCardComponent } from './components/review-card/review-card.component';
+import { StrLimiterPipe } from './pipes/str-limiter.pipe';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ReviewCardComponent } from './components/review-card/review-card.compon
     CleanCurrencyPipe,
     ArticleCardComponent,
     ReviewCardComponent,
+    StrLimiterPipe,
   ],
   imports: [
     CommonModule,
@@ -21,6 +23,7 @@ import { ReviewCardComponent } from './components/review-card/review-card.compon
   ],
   exports: [
     SaveHtmlPipe,
+    StrLimiterPipe,
     ServiceCardComponent,
     ArticleCardComponent,
     ReviewCardComponent,
