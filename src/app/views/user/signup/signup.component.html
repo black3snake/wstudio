@@ -1,8 +1,13 @@
 <section class="signup">
   <div class="container">
-    <div class="auth__form" [formGroup]="signupForm" passwordRepeat>
+    <div class="auth__form" [formGroup]="signupForm">
       <div class="auth__form-title">Регистрация на сайте</div>
       <div class="auth__form-inputs">
+        <div class="auth__form-input">
+          <input type="text" class="input" placeholder="Ваше имя"
+                 [ngStyle]="{'border-color': name?.invalid && (name?.dirty || name?.touched) ? 'red' : ''}"
+                 formControlName="name" name="">
+        </div>
         <div class="auth__form-input">
           <input type="text" class="input" placeholder="Электронная почта"
                  [ngStyle]="{'border-color': email?.invalid && (email?.dirty || email?.touched) ? 'red' : ''}"
@@ -13,19 +18,27 @@
                  [ngStyle]="{'border-color': password?.invalid && (password?.dirty || password?.touched) ? 'red' : ''}"
                  formControlName="password" name="">
         </div>
-        <div class="auth__form-input">
-          <input type="password" class="input" placeholder="Повторите пароль"
-                 [ngStyle]="{'border-color': passwordRepeat?.invalid && (passwordRepeat?.dirty || passwordRepeat?.touched) ? 'red' : ''}"
-                 formControlName="passwordRepeat" name="">
-        </div>
         <div class="auth__form-checkbox">
           <input type="checkbox" name="" id="agree" formControlName="agree">
           <label for="agree">
             Я принимаю
-            <a href="#">условия пользовательского соглашения</a>
+            <app-rtf-viewer
+              [filePath]="'/assets/documents/Policy.rtf'"
+              [anchorId]="'agreement'"
+              [linkText]="'условия пользовательского соглашения'">
+            </app-rtf-viewer>
             и даю
-            <a href="#">согласие на обработку персональных данных</a>
+            <app-rtf-viewer
+              [filePath]="'/assets/documents/agreement.rtf'"
+              [anchorId]="'consent'"
+              [linkText]="'согласие на обработку персональных данных'">
+            </app-rtf-viewer>
             .
+<!--            Я принимаю-->
+<!--            <a (click)="openAgreement()">условия пользовательского соглашения</a>-->
+<!--            и даю-->
+<!--            <a href="#">согласие на обработку персональных данных</a>-->
+<!--            .-->
           </label>
         </div>
       </div>
