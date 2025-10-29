@@ -23,21 +23,16 @@
           <label for="agree">
             Я принимаю
             <app-rtf-viewer
-              [filePath]="'assets/documents/deepseek.rtf'"
+              [filePath]="'assets/documents/Policy.rtf'"
+              [anchorId]="'agreement'"
               [linkText]="'условия пользовательского соглашения'">
             </app-rtf-viewer>
             и даю
             <app-rtf-viewer
-              [filePath]="'assets/documents/agreement.rtf'"
-              [linkText]="'согласие на обработку персональных данных'">
+              [filePath]="'assets/documents/Policy.rtf'"
+              [anchorId]="'privacy'"
+              [linkText]="'согласие на обработку персональных данных.'">
             </app-rtf-viewer>
-            .
-
-<!--            Я принимаю-->
-<!--            <a (click)="openAgreement()">условия пользовательского соглашения</a>-->
-<!--            и даю-->
-<!--            <a href="#">согласие на обработку персональных данных</a>-->
-<!--            .-->
           </label>
         </div>
       </div>

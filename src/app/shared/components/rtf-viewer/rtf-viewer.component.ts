@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {GoogleViewerService} from "../../services/google-viewer.service";
+import {HexRtfParserService} from "../../services/hex-rtf-parser.service";
 
 @Component({
   selector: 'app-rtf-viewer',
@@ -7,15 +7,16 @@ import {GoogleViewerService} from "../../services/google-viewer.service";
   styleUrls: ['./rtf-viewer.component.scss']
 })
 export class RtfViewerComponent {
-  @Input() filePath: string = 'assets/documents/deepseek.rtf';
+  @Input() filePath: string = 'assets/documents/Policy.rtf';
   @Input() linkText: string = 'открыть документ';
+  @Input() anchorId: string = '';
   @Input() tooltip: string = '';
 
-  constructor(private googleViewer: GoogleViewerService) {}
+  constructor(private rtfParserService: HexRtfParserService) {}
 
-  openDocument(event: Event): void {
+  async openDocument(event: Event): Promise<void> {
     event.preventDefault();
-    this.googleViewer.openRtfWithGoogleViewer(this.filePath);
+    await this.rtfParserService.parseRtfFile(this.filePath, this.anchorId);
   }
 
 }
