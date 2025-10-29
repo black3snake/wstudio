@@ -6,7 +6,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {LoginResponseType} from "../../../../types/login-response.type";
 import {DefaultResponseType} from "../../../../types/default-response.type";
 import {HttpErrorResponse} from "@angular/common/http";
-import {TextDecoderRtfService} from "../../../shared/services/text-decoder-rtf.service";
+import {SimpleRtfParserService} from "../../../shared/services/simple-rtf-parser.service";
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +18,7 @@ export class SignupComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
   private _snackBar = inject(MatSnackBar);
-  private enhancedRtfService = inject(TextDecoderRtfService);
+  private enhancedRtfService = inject(SimpleRtfParserService);
   agreementFilePath = 'assets/documents/agreement.rtf';
 
   signupForm = this.fb.group({

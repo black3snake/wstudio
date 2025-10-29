@@ -23,15 +23,17 @@
           <label for="agree">
             Я принимаю
             <app-rtf-viewer
-              [filePath]="'/assets/documents/Policy.rtf'"
+              [filePath]="'assets/documents/deepseek.rtf'"
               [anchorId]="'agreement'"
-              [linkText]="'условия пользовательского соглашения'">
+              [linkText]="'условия пользовательского соглашения'"
+              [tooltip]="'Перейти к разделу соглашения'">
             </app-rtf-viewer>
             и даю
             <app-rtf-viewer
-              [filePath]="'/assets/documents/agreement.rtf'"
+              [filePath]="'assets/documents/agreement.rtf'"
               [anchorId]="'consent'"
-              [linkText]="'согласие на обработку персональных данных'">
+              [linkText]="'согласие на обработку персональных данных'"
+              [tooltip]="'Перейти к разделу согласия'">
             </app-rtf-viewer>
             .
 <!--            Я принимаю-->
