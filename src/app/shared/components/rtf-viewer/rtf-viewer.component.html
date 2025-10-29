@@ -2,14 +2,7 @@
   href="#"
   (click)="openDocument($event)"
   class="doc-link"
-  [class.loading]="isLoading"
   [title]="tooltip">
-
-  <span class="link-text">{{ linkText }}</span>
-
-  <span *ngIf="isLoading" class="loading-indicator">
-        <span class="spinner"></span>
-        <span class="loading-text">Загрузка...</span>
-      </span>
+  {{ linkText }}
 </a>
 
