@@ -35,6 +35,9 @@
             &:hover {
               color: $color-blue;
             }
+            &.active {
+              color: $color-blue;
+            }
           }
         }
       }

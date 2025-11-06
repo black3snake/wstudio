@@ -1,0 +1,109 @@
+@import "variables";
+@import "mixins";
+
+.article {
+  padding-top: 80px;
+  padding-bottom: 120px;
+
+  .container {
+    .article__title {
+      @include head-lora-38;
+      margin-bottom: 40px;
+    }
+
+    .article__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 40px;
+
+      .article__applied_filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .article__applied_filter {
+          display: flex;
+          align-items: center;
+          border-radius: 5px;
+          border: 1.5px solid $color-blue;
+          padding: 8px 20px;
+
+          color: $color-blue;
+          font-size: 16px;
+
+          a {
+            text-decoration: none;
+            cursor: pointer;
+            display: flex;
+            margin-left: 8px;
+          }
+        }
+
+      }
+
+      .article__filters {
+        position: relative;
+        width: 148px;
+        max-width: 148px;
+        font-size: 16px;
+        cursor: pointer;
+        box-sizing: border-box;
+
+        .article__filters_head {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          color: $color-main;
+          padding: 10px 0 10px 23px;
+        }
+        .article__filters_body {
+          position: absolute;
+          width: 100%;
+          z-index: 5;
+          display: none;
+          padding: 12px 23px;
+          background-color: #ffffff;
+          border-radius: 0 0 5px 5px;
+          color: #BEBEBE;
+          box-sizing: border-box;
+
+          .article__filters_item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            cursor: pointer;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+            &.active {
+              color: $color-main;
+            }
+          }
+        }
+
+        &.open {
+          width: 257px;
+          min-width: 257px;
+          .article__filters_head {
+            background: #B9D5FD;
+            border-radius: 5px 5px 0 0;
+            padding-right: 23px;
+          }
+          .article__filters_body {
+            display: block;
+          }
+        }
+      }
+
+    }
+
+    .article__items {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px 24px;
+    }
+  }
+}
