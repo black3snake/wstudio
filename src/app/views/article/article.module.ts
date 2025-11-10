@@ -10,7 +10,7 @@ import {SharedModule} from "../../shared/shared.module";
 @NgModule({
   declarations: [
     CatalogComponent,
-    DetailComponent
+    DetailComponent,
   ],
   imports: [
     CommonModule,

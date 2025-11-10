@@ -5,17 +5,21 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class StrLimiterPipe implements PipeTransform {
 
-  transform(value: string | null): string {
+  transform(
+    value: string | null | undefined,
+    limit: number = 10,
+    suffix: string = '..',
+  ): string {
     if (!value) return '';
-    const maxLength = 10;
-    if (value.length <= maxLength) return value.toString();
+    if (limit <= 0) return value.toString();
+    if(value.length <= limit) return value.toString();
 
-    const regex = new RegExp(`^.{0,${maxLength}}\\b`,'u');
+    const regex = new RegExp(`^.{0,${limit}}\\b`,'u');
     const match = value.match(regex);
 
     if (match && match[0].length > 0) {
-      return match[0] + '..';
+      return match[0] + suffix;
     }
-    return value.substring(0, maxLength);
+    return value.substring(0, limit) + suffix;
   }
 }

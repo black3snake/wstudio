@@ -9,6 +9,7 @@ import {CategoryService} from "../../../shared/services/category.service";
 import {CategoryType} from "../../../../types/category.type";
 import {debounceTime} from "rxjs";
 import {ActiveParamsUtil} from "../../../shared/util/active-params.util";
+import {AppliedFilterType} from "../../../../types/applied-filter.type";
 
 @Component({
   selector: 'app-catalog',
@@ -29,6 +30,7 @@ export class CatalogComponent implements OnInit {
   activeParams: ActiveParamsType = {categories: []};
   categories: CategoryType[] = [];
   pages: number[] = [];
+  appliedFilters: AppliedFilterType[] = [];
 
   ngOnInit(): void {
     this.categoryService.getCategories()
@@ -38,13 +40,25 @@ export class CatalogComponent implements OnInit {
 
     this.activatedRoute.queryParams
       .pipe(
-        debounceTime(400),
+        debounceTime(500),
       )
       .subscribe((params) => {
         this.activeParams = ActiveParamsUtil.processParams(params);
 
         this.emptyArticlesInCatalog = false;
+        this.appliedFilters = [];
 
+        if (this.activeParams.categories) {
+          this.activeParams.categories.forEach(category => {
+            this.appliedFilters.push({
+                name: this.associationCategoryUrlName(category),
+                urlParam: category,
+              }
+            )
+          })
+        }
+        console.log('appliedFilters');
+        console.log(this.appliedFilters)
 
         this.articleService.getArticles(this.activeParams)
           .subscribe({
@@ -72,21 +86,7 @@ export class CatalogComponent implements OnInit {
       });
   }
 
-  processCatalog() {
 
-  }
-
-
-  associationCategoryNameUrl(name: string) {
-    let nameAsUrl = '';
-    for (const cat of this.categories) {
-      if (cat.name === name) {
-        nameAsUrl = cat.url;
-        break;
-      }
-    }
-    return nameAsUrl
-  }
   associationCategoryUrlName(url: string) {
     let urlAsName = '';
     for (const cat of this.categories) {
@@ -98,11 +98,14 @@ export class CatalogComponent implements OnInit {
     return urlAsName
   }
 
-  removeAppliedFilter(categoryName: string) {
-    if (this.activeParams.categories && this.activeParams.urls) {
-      this.activeParams.categories = this.activeParams.categories.filter(item => item !== categoryName);
-      this.activeParams.urls = this.activeParams.urls.filter(item => item !== this.associationCategoryNameUrl(categoryName));
+  removeAppliedFilter(appliedFilter: AppliedFilterType) {
+    if (this.activeParams.categories) {
+      this.activeParams.categories = this.activeParams.categories.filter(item => item !== appliedFilter.urlParam);
     }
+    this.activeParams.page = 1;
+    this.router.navigate(['/catalog'], {
+      queryParams: this.activeParams
+    });
   }
 
   toggle() {
@@ -118,31 +121,53 @@ export class CatalogComponent implements OnInit {
       if (!this.activeParams.categories) {
         this.activeParams.categories = [];
       }
-      if (!this.activeParams.urls) {
-        this.activeParams.urls = [];
-      }
 
-      if (this.activeParams.categories.includes(category.name) && this.activeParams.urls.includes(category.url)) {
-        this.activeParams.categories = this.activeParams.categories.filter(item => item !== category.name);
-        this.activeParams.urls = this.activeParams.urls.filter(item => item !== category.url);
+      if (this.activeParams.categories.includes(category.url)) {
+        this.activeParams.categories = this.activeParams.categories.filter(item => item !== category.url);
       } else {
-        this.activeParams.categories.push(category.name);
-        this.activeParams.urls.push(category.url);
+        // this.activeParams.categories.push(category.url); // работает с косяками
+        this.activeParams.categories = [...this.activeParams.categories, category.url];
       }
     }
-    // console.log(this.activeParams.categories);
-    // console.log(this.activeParams.urls);
+    this.activeParams.page = 1;
+    console.log('activeParams');
+    console.log(this.activeParams);
     this.router.navigate(['/catalog'], {
       queryParams: this.activeParams
     });
   }
 
-  getEnableFilter(categoryName: string): boolean {
+  getEnableFilter(categoryUrl: string): boolean {
     if (this.activeParams.categories) {
-      return this.activeParams.categories.includes(categoryName);
+      return this.activeParams.categories.includes(categoryUrl);
     } else {
       return false;
     }
   }
+
+  openPage(page: number) {
+    this.activeParams.page = page;
+    this.router.navigate(['/catalog'], {
+      queryParams: this.activeParams
+    });
+  }
+  openPrevPage() {
+    if (this.activeParams.page && this.activeParams.page > 1) {
+      this.activeParams.page--;
+      this.router.navigate(['/catalog'], {
+        queryParams: this.activeParams
+      });
+    }
+  }
+  openNextPage() {
+    if (this.activeParams.page && this.activeParams.page < this.pages.length) {
+      this.activeParams.page++;
+      this.router.navigate(['/catalog'], {
+        queryParams: this.activeParams
+      });
+    }
+  }
+
+
 
 }
