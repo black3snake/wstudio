@@ -4,6 +4,14 @@ import {ArticleService} from "../../../shared/services/article.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DefaultResponseType} from "../../../../types/default-response.type";
 import {HttpErrorResponse} from "@angular/common/http";
+import {AuthService} from "../../../core/auth/auth.service";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {FormBuilder, Validators} from "@angular/forms";
+import {CommentService} from "../../../shared/services/comment.service";
+import {CommentsParamsType} from "../../../../types/comments-params.type";
+import {CommentsType} from "../../../../types/comments.type";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {CommentParamsType} from "../../../../types/comment-params.type";
 
 @Component({
   selector: 'app-detail',
@@ -13,11 +21,37 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class DetailComponent implements OnInit {
   article!: ArticleType;
   articlesRel: ArticleType[] = [];
-
+  comments!: CommentsType;
+  isLogged: boolean = false;
+  commentsCount: number = 1;
+  paramCommentsObject: CommentsParamsType = {
+    offset: 3,
+    article: '',
+  }
 
   private articleService = inject(ArticleService);
   private activatedRoute = inject(ActivatedRoute)
   private router = inject(Router);
+  private authService = inject(AuthService);
+  private fb = inject(FormBuilder);
+  private commentsService = inject(CommentService);
+  private _snackBar = inject(MatSnackBar);
+
+  commentForm = this.fb.group({
+    text: ['', [Validators.required, Validators.pattern(/^(?=.{20,}$)[а-яёА-ЯЁa-zA-Z0-9,.:;!?\-\s]+$/)]],
+  })
+
+  get text() {
+    return this.commentForm.get('text');
+  }
+
+  constructor() {
+    this.authService.isLogged$
+      .pipe(takeUntilDestroyed())
+      .subscribe((isLogged: boolean) => {
+        this.isLogged = isLogged;
+      })
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
@@ -40,16 +74,55 @@ export class DetailComponent implements OnInit {
                 }
               )
 
+            this.paramCommentsObject.article = this.article.id;
+            this.commentsService.getComments(this.paramCommentsObject)
+              .subscribe((dataComments: CommentsType | DefaultResponseType) => {
+                if ((dataComments as DefaultResponseType).error !== undefined) {
+                  const error = (dataComments as DefaultResponseType).message;
+                  throw new Error(error);
+                }
+                this.comments = dataComments as CommentsType;
+                console.log(this.comments);
+              })
 
           },
           error: (err: HttpErrorResponse) => {
-            console.log(err);
-            this.router.navigate(['/404']);
+            if (err.error && err.error.message) {
+              this._snackBar.open(err.error.message);
+            } else {
+              this._snackBar.open('Ошибка ответа от сервера')
+            }
           }
 
         })
     })
 
+  }
+
+  submit() {
+    if (this.commentForm.valid && this.commentForm.value.text) {
+      const paramCommentObject: CommentParamsType = {
+        text: this.commentForm.value.text,
+        article: this.article.id,
+      }
+      this.commentsService.createComment(paramCommentObject)
+        .subscribe({
+          next: (data: DefaultResponseType) => {
+            if (data.error) {
+              throw new Error(data.message)
+            }
+
+          },
+          error: (err: HttpErrorResponse) => {
+            if (err.error && err.error.message) {
+              this._snackBar.open(err.error.message);
+              console.log(err.error.message);
+            } else {
+              this._snackBar.open('Ошибка добавление комментария');
+            }
+          }
+        })
+    }
   }
 
 }

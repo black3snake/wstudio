@@ -8,6 +8,7 @@ import { ArticleCardComponent } from './components/article-card/article-card.com
 import { ReviewCardComponent } from './components/review-card/review-card.component';
 import { StrLimiterPipe } from './pipes/str-limiter.pipe';
 import { RtfViewerComponent } from './components/rtf-viewer/rtf-viewer.component';
+import { CommentCardComponent } from './components/comment-card/comment-card.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { RtfViewerComponent } from './components/rtf-viewer/rtf-viewer.component
     ReviewCardComponent,
     StrLimiterPipe,
     RtfViewerComponent,
+    CommentCardComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,7 @@ import { RtfViewerComponent } from './components/rtf-viewer/rtf-viewer.component
     ArticleCardComponent,
     ReviewCardComponent,
     RtfViewerComponent,
+    CommentCardComponent,
   ]
 })
 export class SharedModule { }

@@ -2,16 +2,12 @@
   <div class="container">
     <div class="article__crumbs">
       <div class="article__crumbs_start">Блог&nbsp;&nbsp;/</div>
-      <div class="article__crumbs_end">Дизайн-ревью: в чем его преимущества и особенности?</div>
+      <div class="article__crumbs_end">{{article.title}}</div>
     </div>
     <div class="article__head">
       <div class="article__head_left">
-        <div class="article__head_left-title">Дизайн-ревью: в чем его преимущества и особенности? </div>
-        <div class="article__head_left-description">Узнайте, что такое дизайн-ревью и для чего проводить. Не всегда
-                                                    разработчики и дизайнеры понимают ценность дизайн-ревью. Разбираем,
-                                                    как внедрение этого процесса повышает эффективность работы всей
-                                                    команды.
-        </div>
+        <div class="article__head_left-title">{{article.title}}</div>
+        <div class="article__head_left-description">{{article.description}}</div>
       </div>
       <div class="article__head_right">
         <img src="/assets/images/article/image0.jpg" alt="image article">
@@ -19,25 +15,7 @@
     </div>
     <div class="article__body">
       <div class="article__body_left">
-        <div class="article__body_left-text">
-          <p>Что такое дизайн-ревью? Это процесс, в ходе которого дизайнер оценивает результаты разработки до релиза
-             проекта, указывает на недочеты и вносит предложения по доработке дизайна. В некоторых компаниях этот
-             процесс
-             может называться по-другому, но суть остается той же.</p>
-          <h3>Какие задачи решает дизайн-ревью?</h3>
-          <p>Не всегда тимлид, разработчики, тестировщики и сами дизайнеры понимают, для чего внедрять дизайн-ревью. В
-             действительности это очень важный этап работы над любым IT-проектом, решающий сразу несколько задач:</p>
-          <p><b>Дизайнер получает целостное представление об итогах своей работы</b><br>
-            Без дизайн-ревью со временем у дизайнера появляется ощущение, что он работает «в стол». А это может
-            перерасти
-            в выгорание, особенно если в продакшн выкладывается совсем не то, что предлагал дизайнер</p>
-          <p><b>Улучшается взаимодействие внутри команды</b><br>
-            Дизайн-ревью помогает разработчикам и тестировщикам делать свою работу еще лучше. Дизайнер указывает им на
-            незаметные неспециалисту мелочи, которые важны для привлечения внимания пользователей или облегчения
-            восприятия интерфейса в целом</p>
-          <p><b>Сокращение сроков разработки</b><br>
-            Когда внешний вид продукта контролируется дизайнером на всех этапах, временные затраты на доработку проекта
-            перед самым релизом или после него снижаются</p>
+        <div class="article__body_left-text" [innerHTML]="(article.text ? article.text: '') | saveHtml" >
         </div>
         <div class="article__body_left-social">
           <div class="article__body_left-social-title">Понравилась статья? Поделитесь ею в своих социальных сетях!</div>
@@ -81,21 +59,42 @@
 
           </div>
         </div>
-        <div class="article__body_left-comments">
-          <div class="article__body_left-comments-title">Комментарии к статье</div>
-          <div class="article__body_left-comments-authText">
+        <div class="article__body_left-commentsTitle">
+          <div class="article__body_left-commentsTitle-title">Комментарии к статье</div>
+          <div class="article__body_left-commentsTitle-authText" *ngIf="!isLogged">
             Чтобы оставлять комментарии,
             <a routerLink="/login">войдите</a> или
             <a routerLink="/signup">зарегистрируйтесь</a>.
           </div>
-
-
-
+          <div class="article__body_left-commentsTitle-count" *ngIf="isLogged && commentsCount == 0">
+            Будьте первым, кто оставит свой комментарий к статье!
+          </div>
         </div>
+        <div class="article__body_left-input" [formGroup]="commentForm">
+          <textarea class="article__body_left-textarea" placeholder="Напишите Ваш комментарий к статье..."
+                    [ngStyle]="{'border-color': text?.invalid && (text?.dirty || text?.touched) ? 'red' : ''}"
+                    formControlName="text" name=""></textarea>
+          <button class="button comment" [disabled]="commentForm.invalid" (click)="submit()">Опубликовать комментарий</button>
+        </div>
+
+        <div class="article__body_left-comments">
+          <app-comment-card></app-comment-card>
+          <app-comment-card></app-comment-card>
+          <app-comment-card></app-comment-card>
+        </div>
+        <div class="article__body_left-moreComments">
+          <div class="article__body_left-moreComments-title">Загрузить ещё комментарии</div>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 14C9.41668 14 8.83335 13.775 8.39168 13.3334L2.95835 7.90003C2.71668 7.65837 2.71668 7.25837 2.95835 7.0167C3.20002 6.77503 3.60002 6.77503 3.84168 7.0167L9.27502 12.45C9.67502 12.85 10.325 12.85 10.725 12.45L16.1583 7.0167C16.4 6.77503 16.8 6.77503 17.0417 7.0167C17.2833 7.25837 17.2833 7.65837 17.0417 7.90003L11.6083 13.3334C11.1667 13.775 10.5833 14 10 14Z" fill="#709FDC"/>
+          </svg>
+        </div>
+
+
 
 
       </div>
       <div class="article__body_right">
+        <div class="article__body_right-title">Читайте также:</div>
         <app-article-card *ngFor="let articleR of articlesRel" [article]="articleR"></app-article-card>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { ArticleRoutingModule } from './article-routing.module';
 import { CatalogComponent } from './catalog/catalog.component';
 import { DetailComponent } from './detail/detail.component';
 import {SharedModule} from "../../shared/shared.module";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -12,10 +13,11 @@ import {SharedModule} from "../../shared/shared.module";
     CatalogComponent,
     DetailComponent,
   ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    ArticleRoutingModule
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        ArticleRoutingModule,
+        ReactiveFormsModule
+    ]
 })
 export class ArticleModule { }
