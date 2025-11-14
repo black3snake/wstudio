@@ -1,22 +1,22 @@
-<div class="comment">
+<div class="comment" *ngIf="comment">
   <div class="comment-head">
     <div class="comment-head-image"
          [style.background-image]="'url(/assets/images/comment/' + 'user-image.png' +')'"></div>
     <div class="comment-head-right">
-      <div class="comment-head-right-name">Амелия</div>
-      <div class="comment-head-right-date">20.01.2023 23:00</div>
+      <div class="comment-head-right-name">{{comment.user.name}}</div>
+      <div class="comment-head-right-date">{{comment.date | date:'dd.MM.yyyy HH:mm'}}</div>
     </div>
   </div>
   <div class="comment-body">
-    <div class="comment-body-text">Статья супер, спасибо! Взяла на заметку очень многое для себя и своей фирмы по разработке пользовательского интерфейса. Хотелось бы послушать мнение других тоже!</div>
+    <div class="comment-body-text">{{comment.text}}</div>
     <div class="comment-body-actions">
       <div class="comment-body-actions-like">
-        <span class="active">51</span>
+        <span class="active">{{comment.likesCount}}</span>
         <div class="comment-body-actions-like-img active"
              [style.background-image]="'url(/assets/images/comment/' + 'like-active.png' +')'"></div>
       </div>
       <div class="comment-body-actions-like">
-        <span>2</span>
+        <span>{{comment.dislikesCount}}</span>
         <div class="comment-body-actions-like-img"
              [style.background-image]="'url(/assets/images/comment/' + 'dislike.png' +')'"></div>
       </div>

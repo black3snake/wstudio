@@ -5,6 +5,7 @@ import {ArticleType} from "../../../types/article.type";
 import {environment} from "../../../environments/environment";
 import {ActiveParamsType} from "../../../types/active-params.type";
 import {DefaultResponseType} from "../../../types/default-response.type";
+import {ArticleDetailType} from "../../../types/article-detail.type";
 
 @Injectable({
   providedIn: 'root'
@@ -23,12 +24,11 @@ export class ArticleService {
     });
   }
 
-  getArticle(url: string): Observable<ArticleType | DefaultResponseType> {
-    return this.http.get<ArticleType | DefaultResponseType>(environment.apiUrl + 'articles/' + url);
+  getArticle(url: string): Observable<ArticleDetailType | DefaultResponseType> {
+    return this.http.get<ArticleDetailType | DefaultResponseType>(environment.apiUrl + 'articles/' + url);
   }
 
   getArticleRelated(url: string): Observable<ArticleType[] | DefaultResponseType> {
     return this.http.get<ArticleType[] | DefaultResponseType>(environment.apiUrl + 'articles/related/' + url);
   }
-
 }

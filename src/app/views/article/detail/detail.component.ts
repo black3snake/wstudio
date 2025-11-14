@@ -9,9 +9,10 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {FormBuilder, Validators} from "@angular/forms";
 import {CommentService} from "../../../shared/services/comment.service";
 import {CommentsParamsType} from "../../../../types/comments-params.type";
-import {CommentsType} from "../../../../types/comments.type";
+import {CommentsCountType, CommentsType} from "../../../../types/comments-count.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommentParamsType} from "../../../../types/comment-params.type";
+import {ArticleDetailType} from "../../../../types/article-detail.type";
 
 @Component({
   selector: 'app-detail',
@@ -19,9 +20,11 @@ import {CommentParamsType} from "../../../../types/comment-params.type";
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-  article!: ArticleType;
+  article!: ArticleDetailType;
   articlesRel: ArticleType[] = [];
-  comments!: CommentsType;
+
+
+  commentsArticle!: CommentsCountType;
   isLogged: boolean = false;
   commentsCount: number = 1;
   paramCommentsObject: CommentsParamsType = {
@@ -38,7 +41,7 @@ export class DetailComponent implements OnInit {
   private _snackBar = inject(MatSnackBar);
 
   commentForm = this.fb.group({
-    text: ['', [Validators.required, Validators.pattern(/^(?=.{20,}$)[а-яёА-ЯЁa-zA-Z0-9,.:;!?\-\s]+$/)]],
+    text: ['', [Validators.required, Validators.pattern(/^(?=.{20,}$)[а-яёА-ЯЁa-zA-Z0-9,.:;"'!?\-\s]+$/)]],
   })
 
   get text() {
@@ -57,12 +60,17 @@ export class DetailComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.articleService.getArticle(params['url'])
         .subscribe({
-          next: (data: ArticleType | DefaultResponseType) => {
+          next: (data: ArticleDetailType | DefaultResponseType) => {
             if ((data as DefaultResponseType).error !== undefined) {
               const error = (data as DefaultResponseType).message;
               throw new Error(error);
             }
-            this.article = data as ArticleType;
+            this.article = data as ArticleDetailType;
+            this.commentsArticle = {
+              allCount: this.article.commentsCount,
+              comments: this.article.comments
+            };
+            console.log(this.commentsArticle);
 
             this.articleService.getArticleRelated(this.article.url)
               .subscribe((dataRel: ArticleType[] | DefaultResponseType) => {
@@ -73,17 +81,6 @@ export class DetailComponent implements OnInit {
                   this.articlesRel = dataRel as ArticleType[];
                 }
               )
-
-            this.paramCommentsObject.article = this.article.id;
-            this.commentsService.getComments(this.paramCommentsObject)
-              .subscribe((dataComments: CommentsType | DefaultResponseType) => {
-                if ((dataComments as DefaultResponseType).error !== undefined) {
-                  const error = (dataComments as DefaultResponseType).message;
-                  throw new Error(error);
-                }
-                this.comments = dataComments as CommentsType;
-                console.log(this.comments);
-              })
 
           },
           error: (err: HttpErrorResponse) => {
@@ -111,7 +108,8 @@ export class DetailComponent implements OnInit {
             if (data.error) {
               throw new Error(data.message)
             }
-
+            this.commentForm.reset();
+            this.router.navigate(['/comments/' + this.article.url]);
           },
           error: (err: HttpErrorResponse) => {
             if (err.error && err.error.message) {
@@ -123,6 +121,19 @@ export class DetailComponent implements OnInit {
           }
         })
     }
+  }
+
+  moreComments() {
+    this.paramCommentsObject.article = this.article.id;
+    this.commentsService.getComments(this.paramCommentsObject)
+      .subscribe((dataComments: CommentsCountType | DefaultResponseType) => {
+        if ((dataComments as DefaultResponseType).error !== undefined) {
+          const error = (dataComments as DefaultResponseType).message;
+          throw new Error(error);
+        }
+        // this.comments = dataComments as CommentsType;
+        // console.log(this.comments);
+      })
   }
 
 }
