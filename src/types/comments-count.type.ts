@@ -7,8 +7,8 @@ export type CommentsType = {
   id: string,
   text: string,
   date: string,
-  likesCount: 1,
-  dislikesCount: 1,
+  likesCount: number,
+  dislikesCount: number,
   user: {
     id: string,
     name: string,

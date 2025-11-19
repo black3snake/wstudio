@@ -25,7 +25,7 @@ export class DetailComponent implements OnInit {
   articlesRel: ArticleType[] = [];
 
   allComments: CommentsType[] = [];
-  allActionsArticleOfUser: CommentActionType[] = []
+  allActionsArticleOfUsers: CommentActionType[] = []
   isLogged: boolean = false;
 
   currentOffset = 3;
@@ -64,13 +64,11 @@ export class DetailComponent implements OnInit {
         if (commentsData) {
           if (commentsData.isNewLoad) {
             // Новая загрузка (после добавления комментария) - заменяем все комментарии
-            this.allComments = commentsData.comments;
-            this.updateAllComments();
+            this.allComments = this.updateAllComments(commentsData.comments);
             this.currentOffset = commentsData.comments.length;
           } else {
             // добавляем к существующим
-            this.allComments = [...this.allComments, ...commentsData.comments];
-            this.updateAllComments();
+            this.allComments = [...this.allComments, ...this.updateAllComments(commentsData.comments)];
             this.currentOffset += commentsData.comments.length;
           }
 
@@ -92,7 +90,7 @@ export class DetailComponent implements OnInit {
             this.article = data as ArticleDetailType;
             this.totalCommentsCount = this.article.commentsCount;
 
-            this.allComments = this.article.comments || [];
+            const allCommentsPrev: CommentsType[] = this.article.comments || [];
 
             this.commentsService.getActionCommentUserForArticle({articleId: this.article.id})
               .subscribe({
@@ -100,11 +98,12 @@ export class DetailComponent implements OnInit {
                   if ((dataAction as DefaultResponseType).error !== undefined) {
                     throw new Error((dataAction as DefaultResponseType).message);
                   }
-                  this.allActionsArticleOfUser = dataAction as CommentActionType[];
+                  this.allActionsArticleOfUsers = dataAction as CommentActionType[];
+                  // console.log(this.allActionsArticleOfUser)
+                  this.allComments = this.updateAllComments(allCommentsPrev);
+                  // console.log(this.allComments)
                 }
               })
-
-            this.updateAllComments();
 
             this.updateHasMoreComments();
 
@@ -172,13 +171,15 @@ export class DetailComponent implements OnInit {
     this.hasMoreComments = this.allComments.length < this.totalCommentsCount;
   }
 
-  private updateAllComments() {
-    this.allComments = this.allComments.map(comment => {
-      const foundId = this.allActionsArticleOfUser.find(item => item.comment == comment.id)
+  private updateAllComments(allCommentsPrev: CommentsType[]) {
+    let allComments: CommentsType[];
+    allComments = allCommentsPrev.map(comment => {
+      const foundId = this.allActionsArticleOfUsers.find(item => item.comment == comment.id)
       if (foundId) {
         comment.reactionAction = foundId.action;
       }
       return comment;
     })
+    return allComments;
   }
 }
