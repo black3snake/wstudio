@@ -8,11 +8,12 @@ import {AuthService} from "../../../core/auth/auth.service";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {FormBuilder, Validators} from "@angular/forms";
 import {CommentService} from "../../../shared/services/comment.service";
-import {CommentsParamsType} from "../../../../types/comments-params.type";
-import {CommentsCountType, CommentsType} from "../../../../types/comments-count.type";
+import {CommentsType} from "../../../../types/comments-count.type";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommentParamsType} from "../../../../types/comment-params.type";
 import {ArticleDetailType} from "../../../../types/article-detail.type";
+import {CommentActionType} from "../../../../types/comment-action.type";
+import {CommentsParamsType} from "../../../../types/comments-params.type";
 
 @Component({
   selector: 'app-detail',
@@ -23,14 +24,14 @@ export class DetailComponent implements OnInit {
   article!: ArticleDetailType;
   articlesRel: ArticleType[] = [];
 
-
-  commentsArticle!: CommentsCountType;
+  allComments: CommentsType[] = [];
+  allActionsArticleOfUser: CommentActionType[] = []
   isLogged: boolean = false;
-  commentsCount: number = 1;
-  paramCommentsObject: CommentsParamsType = {
-    offset: 3,
-    article: '',
-  }
+
+  currentOffset = 3;
+  hasMoreComments = false;
+  isLoadingMore = false;
+  totalCommentsCount = 0;
 
   private articleService = inject(ArticleService);
   private activatedRoute = inject(ActivatedRoute)
@@ -54,6 +55,28 @@ export class DetailComponent implements OnInit {
       .subscribe((isLogged: boolean) => {
         this.isLogged = isLogged;
       })
+
+    this.commentsService.comments$
+      .pipe(takeUntilDestroyed())
+      .subscribe((commentsData: { comments: CommentsType[], isNewLoad: boolean } | null) => {
+        this.isLoadingMore = false;
+
+        if (commentsData) {
+          if (commentsData.isNewLoad) {
+            // Новая загрузка (после добавления комментария) - заменяем все комментарии
+            this.allComments = commentsData.comments;
+            this.updateAllComments();
+            this.currentOffset = commentsData.comments.length;
+          } else {
+            // добавляем к существующим
+            this.allComments = [...this.allComments, ...commentsData.comments];
+            this.updateAllComments();
+            this.currentOffset += commentsData.comments.length;
+          }
+
+          this.updateHasMoreComments();
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -65,12 +88,25 @@ export class DetailComponent implements OnInit {
               const error = (data as DefaultResponseType).message;
               throw new Error(error);
             }
+
             this.article = data as ArticleDetailType;
-            this.commentsArticle = {
-              allCount: this.article.commentsCount,
-              comments: this.article.comments
-            };
-            console.log(this.commentsArticle);
+            this.totalCommentsCount = this.article.commentsCount;
+
+            this.allComments = this.article.comments || [];
+
+            this.commentsService.getActionCommentUserForArticle({articleId: this.article.id})
+              .subscribe({
+                next: dataAction => {
+                  if ((dataAction as DefaultResponseType).error !== undefined) {
+                    throw new Error((dataAction as DefaultResponseType).message);
+                  }
+                  this.allActionsArticleOfUser = dataAction as CommentActionType[];
+                }
+              })
+
+            this.updateAllComments();
+
+            this.updateHasMoreComments();
 
             this.articleService.getArticleRelated(this.article.url)
               .subscribe((dataRel: ArticleType[] | DefaultResponseType) => {
@@ -109,7 +145,8 @@ export class DetailComponent implements OnInit {
               throw new Error(data.message)
             }
             this.commentForm.reset();
-            this.router.navigate(['/comments/' + this.article.url]);
+            this._snackBar.open('Комментарий добавлен');
+            this.totalCommentsCount += 1;
           },
           error: (err: HttpErrorResponse) => {
             if (err.error && err.error.message) {
@@ -123,17 +160,25 @@ export class DetailComponent implements OnInit {
     }
   }
 
-  moreComments() {
-    this.paramCommentsObject.article = this.article.id;
-    this.commentsService.getComments(this.paramCommentsObject)
-      .subscribe((dataComments: CommentsCountType | DefaultResponseType) => {
-        if ((dataComments as DefaultResponseType).error !== undefined) {
-          const error = (dataComments as DefaultResponseType).message;
-          throw new Error(error);
-        }
-        // this.comments = dataComments as CommentsType;
-        // console.log(this.comments);
-      })
+  loadMoreComments(): void {
+    if (this.hasMoreComments && this.article && !this.isLoadingMore) {
+      this.isLoadingMore = true;
+      this.commentsService.loadMoreComments(this.article.id, this.currentOffset);
+    }
+    console.log('this.isLoadingMore: ' + this.isLoadingMore)
   }
 
+  private updateHasMoreComments() {
+    this.hasMoreComments = this.allComments.length < this.totalCommentsCount;
+  }
+
+  private updateAllComments() {
+    this.allComments = this.allComments.map(comment => {
+      const foundId = this.allActionsArticleOfUser.find(item => item.comment == comment.id)
+      if (foundId) {
+        comment.reactionAction = foundId.action;
+      }
+      return comment;
+    })
+  }
 }

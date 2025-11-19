@@ -6,6 +6,7 @@ import {DefaultResponseType} from "../../../types/default-response.type";
 import {CommentsCountType, CommentsType} from "../../../types/comments-count.type";
 import {CommentsParamsType} from "../../../types/comments-params.type";
 import {CommentParamsType} from "../../../types/comment-params.type";
+import {CommentActionType} from "../../../types/comment-action.type";
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class CommentService {
             }, true); // true - новая загрузка комментов
           }
         })
-      )
+      );
   }
 
   refreshComments(params: CommentsParamsType, isNewLoad: boolean) : void {
@@ -59,5 +60,21 @@ export class CommentService {
       offset: currentOffset
     }, false);
   }
+
+  getActionComment(commentId: string): Observable<CommentActionType[] | DefaultResponseType> {
+    return this.http.get<CommentActionType[] | DefaultResponseType>(environment.apiUrl + 'comments/' + commentId + '/actions')
+  }
+
+  getActionCommentUserForArticle(params: {articleId: string}): Observable<CommentActionType[] | DefaultResponseType> {
+    return this.http.get<CommentActionType[] | DefaultResponseType>(environment.apiUrl + 'comments/article-comment-actions',  {
+      params: params
+    });
+  }
+
+  updateActionComment(commentId: string, params: {action: string} ): Observable<DefaultResponseType> {
+    return this.http.post<DefaultResponseType>(environment.apiUrl + 'comments/' + commentId + '/apply-action',params)
+  }
+
+
 
 }

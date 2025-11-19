@@ -13,4 +13,5 @@ export type CommentsType = {
     id: string,
     name: string,
   },
+  reactionAction?: string,
 }
