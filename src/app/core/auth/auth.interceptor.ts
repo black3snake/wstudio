@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
-import {catchError, finalize, Observable, switchMap, throwError} from 'rxjs';
+import {BehaviorSubject, catchError, filter, finalize, Observable, switchMap, take, throwError} from 'rxjs';
 import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
 import {LoginResponseType} from "../../../types/login-response.type";
@@ -13,6 +13,8 @@ import {DefaultResponseType} from "../../../types/default-response.type";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
   constructor(private authService: AuthService,
               private router: Router,
@@ -28,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
       const authReq = req.clone({
         headers: req.headers.set('x-auth', tokens.accessToken),
       })
-      // console.log(req);
+      console.log(req);
       return next.handle(authReq)
         .pipe(
           catchError((error: HttpErrorResponse) => {
@@ -51,36 +53,97 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   handle401Error(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    //логика обновления токена
-    return this.authService.refresh()
-      .pipe(
+    // Проверяем, не выполняется ли уже запрос на обновление
+    if (this.isRefreshing) {
+      return this.refreshTokenSubject.pipe(
+        filter(token => token !== null),
+        take(1),
+        switchMap(token => {
+          const authReq = req.clone({
+            headers: req.headers.set('x-auth', token!),
+          });
+          return next.handle(authReq);
+        })
+      );
+    } else {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+
+      return this.authService.refresh().pipe(
         switchMap((result: LoginResponseType | DefaultResponseType) => {
-          let error = '';
+          this.isRefreshing = false;
+
+          // Проверяем на ошибку
           if ((result as DefaultResponseType).error !== undefined) {
-            error = (result as DefaultResponseType).message;
+            const errorMessage = (result as DefaultResponseType).message || 'Ошибка авторизации';
+            this.refreshTokenSubject.next(null);
+            this.authService.removeTokens();
+            this.router.navigate(['/login']);
+            console.log('Delete from DefaultResponseType True')
+            return throwError(() => new Error(errorMessage));
           }
 
           const refreshResult = result as LoginResponseType;
           if (!refreshResult.accessToken || !refreshResult.refreshToken || !refreshResult.userId) {
-            error = 'Ошибка авторизации';
+            this.refreshTokenSubject.next(null);
+            this.authService.removeTokens();
+            this.router.navigate(['/login']);
+            console.log('Delete from LoginResponseType')
+            return throwError(() => new Error('Ошибка авторизации'));
           }
 
-          if (error) {
-            return throwError(() => new Error(error));
-          }
-
+          // Сохраняем новые токены
           this.authService.setTokens(refreshResult.accessToken, refreshResult.refreshToken);
+          this.refreshTokenSubject.next(refreshResult.accessToken);
 
+          // Повторяем оригинальный запрос с новым токеном
           const authReq = req.clone({
             headers: req.headers.set('x-auth', refreshResult.accessToken),
-          })
+          });
           return next.handle(authReq);
         }),
         catchError(error => {
+          this.isRefreshing = false;
+          this.refreshTokenSubject.next(null);
           this.authService.removeTokens();
           this.router.navigate(['/login']);
           return throwError(() => error);
         })
-      )
+      );
+    }
   }
+
+
+    // //логика обновления токена
+    // return this.authService.refresh()
+    //   .pipe(
+    //     switchMap((result: LoginResponseType | DefaultResponseType) => {
+    //       let error = '';
+    //       if ((result as DefaultResponseType).error !== undefined) {
+    //         error = (result as DefaultResponseType).message;
+    //       }
+    //
+    //       const refreshResult = result as LoginResponseType;
+    //       if (!refreshResult.accessToken || !refreshResult.refreshToken || !refreshResult.userId) {
+    //         error = 'Ошибка авторизации';
+    //       }
+    //
+    //       if (error) {
+    //         return throwError(() => new Error(error));
+    //       }
+    //
+    //       this.authService.setTokens(refreshResult.accessToken, refreshResult.refreshToken);
+    //
+    //       const authReq = req.clone({
+    //         headers: req.headers.set('x-auth', refreshResult.accessToken),
+    //       })
+    //       return next.handle(authReq);
+    //     }),
+    //     catchError(error => {
+    //       this.authService.removeTokens();
+    //       this.router.navigate(['/login']);
+    //       return throwError(() => error);
+    //     })
+    //   )
+
 }

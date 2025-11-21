@@ -4,7 +4,7 @@
   <div class="services__item-text">{{serviceM.text}}</div>
   <div class="services__item-action">
     <div class="services__item-action-price">От {{serviceM.price | currency: 'RUB':'symbol-narrow': '3.0' | cleanCurrency}} </div>
-    <button class="button" [routerLink]="serviceM.url">Подробнее</button>
+    <button class="button" [routerLink]="serviceM.url" (click)="startPopup()">Подробнее</button>
   </div>
 </div>
 

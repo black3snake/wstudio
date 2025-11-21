@@ -71,6 +71,9 @@ html, body {
     background: gray;
     cursor: not-allowed;
   }
+  &:hover {
+    background: #4B89D6FF
+  }
 }
 
 .main__carousel-block-title span {

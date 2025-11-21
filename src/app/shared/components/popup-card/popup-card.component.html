@@ -1,0 +1,37 @@
+<!--<ng-template #popup>-->
+  <div class="main-popup">
+    <div class="main-popup-close" (click)="closePopup()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="1.93562" y1="2.6499" x2="13.9564" y2="14.6707" stroke="#A8ABA7" stroke-linecap="round"/>
+        <line x1="13.9238" y1="2.62971" x2="1.90301" y2="14.6505" stroke="#A8ABA7" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="main-popup-title" >{{!isLeavedRequested ? 'Заявка на услугу' : 'Спасибо за вашу заявку!'}}</div>
+    <div class="main-popup-inputs" [formGroup]="popupMainForm" *ngIf="!isLeavedRequested; else leavedRequested">
+      <div class="main-popup-input">
+        <input type="text" class="input blue" placeholder="Сервис"
+               [ngStyle]="{'border-color': serviceName?.invalid && (serviceName?.dirty || serviceName?.touched) ? 'red' : ''}"
+               formControlName="serviceName" name="">
+      </div>
+      <div class="main-popup-input">
+        <input type="text" class="input" placeholder="Ваше имя"
+               [ngStyle]="{'border-color': name?.invalid && (name?.dirty || name?.touched) ? 'red' : ''}"
+               formControlName="name" name="">
+      </div>
+      <div class="main-popup-input">
+        <input type="text" class="input" placeholder="Ваш номер телефона" mask="000 000-00-00" prefix="+7 "
+               [ngStyle]="{'border-color': phone?.invalid && (phone?.dirty || phone?.touched) ? 'red' : ''}"
+               formControlName="phone" name="">
+      </div>
+    </div>
+    <ng-template #leavedRequested>
+      <div class="main-popup-text">Мы свяжемся с вами при первой же возможности.</div>
+    </ng-template>
+    <div class="main-popup-action" *ngIf="!isLeavedRequested; else leavedRequestedButton">
+      <button class="button" [disabled]="popupMainForm.invalid" (click)="leaveRequest()">Оставить заявку</button>
+    </div>
+    <ng-template #leavedRequestedButton>
+      <button class="button" (click)="closePopup()">Окей</button>
+    </ng-template>
+  </div>
+<!--</ng-template>-->

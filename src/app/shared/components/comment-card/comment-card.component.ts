@@ -1,13 +1,10 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {CommentsType} from "../../../../types/comments-count.type";
 import {CommentService} from "../../services/comment.service";
-import {ArticleDetailType} from "../../../../types/article-detail.type";
-import {DefaultResponseType} from "../../../../types/default-response.type";
-import {CommentActionType, userCommentActions} from "../../../../types/comment-action.type";
+import {userCommentActions} from "../../../../types/comment-action.type";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthService} from "../../../core/auth/auth.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {catchError, of} from "rxjs";
 
 @Component({
   selector: 'app-comment-card',
@@ -18,7 +15,6 @@ export class CommentCardComponent implements OnInit {
   @Input() comment!: CommentsType;
   liked = false;
   disliked = false;
-  violate = false;
   private like = 1;
   private dislike = 1;
 
@@ -102,11 +98,6 @@ export class CommentCardComponent implements OnInit {
       this._snackBar.open('Для добавление реакции на комментарий необходимо авторизоваться');
       return;
     }
-
-    // const canPerformAction = (actionType === 'like') ? this.like === 1 : this.dislike === 1;
-    // if (!canPerformAction) {
-    //   return;
-    // }
 
     const serverAction = actionType === 'like' ? userCommentActions.like : userCommentActions.dislike;
 

@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, ElementRef, inject, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {OwlOptions} from "ngx-owl-carousel-o";
 import {SliderMainDbService} from "../../shared/services/slider-main-db.service";
 import {SliderMainType} from "../../../types/slider-main.type";
@@ -9,13 +9,14 @@ import {ArticleService} from "../../shared/services/article.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ReviewService} from "../../shared/services/review.service";
 import {ReviewCardType} from "../../../types/review-card.type";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
   customOptionsMain: OwlOptions = {
     loop: true,
@@ -70,6 +71,9 @@ export class MainComponent implements OnInit {
   private servicesDbServices = inject(ServiceDbService);
   private articleService = inject(ArticleService);
   private reviewService = inject(ReviewService);
+  private router = inject(Router);
+
+
 
   ngOnInit(): void {
     this.topSliders = this.slidersMain.getSliderMain();
@@ -88,6 +92,10 @@ export class MainComponent implements OnInit {
   }
 
 
-
+  ngOnDestroy() {
+    // this.destroy$.next();
+    // this.destroy$.complete();
+    // this.dialogRef?.close();
+  }
 
 }

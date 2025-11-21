@@ -14,6 +14,8 @@ import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/materia
 import {CarouselModule} from "ngx-owl-carousel-o";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./core/auth/auth.interceptor";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -24,16 +26,18 @@ import {AuthInterceptor} from "./core/auth/auth.interceptor";
     FooterComponent,
     HeaderComponent,
   ],
-  imports: [
-    HttpClientModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    CarouselModule,
-    SharedModule,
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule
-  ],
+    imports: [
+        HttpClientModule,
+        MatMenuModule,
+        MatSnackBarModule,
+        CarouselModule,
+        SharedModule,
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

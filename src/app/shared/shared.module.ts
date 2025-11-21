@@ -9,6 +9,11 @@ import { ReviewCardComponent } from './components/review-card/review-card.compon
 import { StrLimiterPipe } from './pipes/str-limiter.pipe';
 import { RtfViewerComponent } from './components/rtf-viewer/rtf-viewer.component';
 import { CommentCardComponent } from './components/comment-card/comment-card.component';
+import { PopupCardComponent } from './components/popup-card/popup-card.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { PopupRingCardComponent } from './components/popup-ring-card/popup-ring-card.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask} from "ngx-mask";
 
 @NgModule({
   declarations: [
@@ -20,11 +25,18 @@ import { CommentCardComponent } from './components/comment-card/comment-card.com
     StrLimiterPipe,
     RtfViewerComponent,
     CommentCardComponent,
+    PopupCardComponent,
+    PopupRingCardComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterLink,
-  ],
+    imports: [
+        CommonModule,
+        RouterLink,
+        FormsModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        NgxMaskDirective,
+        NgxMaskPipe
+    ],
   exports: [
     SaveHtmlPipe,
     StrLimiterPipe,
@@ -33,6 +45,7 @@ import { CommentCardComponent } from './components/comment-card/comment-card.com
     ReviewCardComponent,
     RtfViewerComponent,
     CommentCardComponent,
-  ]
+  ],
+  providers: [provideEnvironmentNgxMask()]
 })
 export class SharedModule { }
