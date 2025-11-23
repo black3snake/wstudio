@@ -13,7 +13,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {CommentParamsType} from "../../../../types/comment-params.type";
 import {ArticleDetailType} from "../../../../types/article-detail.type";
 import {CommentActionType} from "../../../../types/comment-action.type";
-import {CommentsParamsType} from "../../../../types/comments-params.type";
 
 @Component({
   selector: 'app-detail',
@@ -102,10 +101,10 @@ export class DetailComponent implements OnInit {
                   // console.log(this.allActionsArticleOfUser)
                   this.allComments = this.updateAllComments(allCommentsPrev);
                   // console.log(this.allComments)
+                  this.updateHasMoreComments();
                 }
               })
 
-            this.updateHasMoreComments();
 
             this.articleService.getArticleRelated(this.article.url)
               .subscribe((dataRel: ArticleType[] | DefaultResponseType) => {
@@ -164,7 +163,7 @@ export class DetailComponent implements OnInit {
       this.isLoadingMore = true;
       this.commentsService.loadMoreComments(this.article.id, this.currentOffset);
     }
-    console.log('this.isLoadingMore: ' + this.isLoadingMore)
+    // console.log('this.isLoadingMore: ' + this.isLoadingMore)
   }
 
   private updateHasMoreComments() {

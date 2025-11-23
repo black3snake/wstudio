@@ -14,19 +14,19 @@
        <nav>
          <ul>
            <li>
-             <a routerLink="/">Услуги</a>
+             <a routerLink="/" fragment="services">Услуги</a>
            </li>
            <li>
-             <a routerLink="/">O нас</a>
+             <a routerLink="/" fragment="info">O нас</a>
            </li>
            <li>
-             <a routerLink="/">Статьи</a>
+             <a routerLink="/catalog" routerLinkActive="active">Статьи</a>
            </li>
            <li>
-             <a routerLink="/">Отзывы</a>
+             <a routerLink="/" fragment="reviews">Отзывы</a>
            </li>
            <li>
-             <a routerLink="/">Контакты</a>
+             <a routerLink="/"  fragment="contacts">Контакты</a>
            </li>
          </ul>
        </nav>
@@ -41,12 +41,12 @@
       </div>
       <div class="footer__bottom_item footer-phone">
         <div class="footer__bottom_item-title">Телефон</div>
-        <div class="footer__bottom_item-text">+7 (499) 343-13-34</div>
+        <a href="tel:+74993431334" class="footer__bottom_item-text">+7 (499) 343-13-34</a>
         <button class="button" (click)="ringMe()">Перезвоните мне</button>
       </div>
       <div class="footer__bottom_item footer-email">
         <div class="footer__bottom_item-title">E-mail</div>
-        <div class="footer__bottom_item-text">info@itstorm.com</div>
+        <a href="mailto:info@itstorm.com" class="footer__bottom_item-text">info@itstorm.com</a>
       </div>
       <div class="footer__bottom_item footer-social">
         <div class="footer__bottom_item-title">Мы в социальных сетях:</div>
@@ -69,6 +69,6 @@
         </div>
       </div>
     </div>
-    <div class="footer__right">© 2022. Все права защищены</div>
+    <div class="footer__right">© 2025. Все права защищены</div>
   </div>
 </footer>

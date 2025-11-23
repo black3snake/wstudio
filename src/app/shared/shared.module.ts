@@ -14,6 +14,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { PopupRingCardComponent } from './components/popup-ring-card/popup-ring-card.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask} from "ngx-mask";
+import {SpinnerComponent} from './components/spiner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask
     CommentCardComponent,
     PopupCardComponent,
     PopupRingCardComponent,
+    SpinnerComponent,
   ],
     imports: [
         CommonModule,
@@ -45,6 +47,7 @@ import {NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask
     ReviewCardComponent,
     RtfViewerComponent,
     CommentCardComponent,
+    SpinnerComponent,
   ],
   providers: [provideEnvironmentNgxMask()]
 })

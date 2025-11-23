@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.add(this.authService.isLogged$.subscribe((isLogged: boolean) => {
         this.isLogged = isLogged;
-        console.log(this.isLogged)
+        // console.log(this.isLogged)
         if (isLogged) {
           this.loadUserInfo();
         } else {
@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
             throw new Error(error);
           }
           this.userInfo = userInfo;
-          console.log(this.userInfo)
+          // console.log(this.userInfo)
         },
         error: (err: HttpErrorResponse) => {
           if (err.error && err.error.message) {

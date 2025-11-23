@@ -10,6 +10,7 @@ import {AuthService} from "./auth.service";
 import {Router} from "@angular/router";
 import {LoginResponseType} from "../../../types/login-response.type";
 import {DefaultResponseType} from "../../../types/default-response.type";
+import {SpinnerService} from "../../shared/services/spinner.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -18,19 +19,19 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthService,
               private router: Router,
-              // private loaderService: LoaderService,
+              private loaderSpinner: SpinnerService,
               ) {
   }
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // this.loaderService.show();
+    // this.loaderSpinner.show();  // Активировать при выгрузке на сервер, локально не использовать.
 
     const tokens = this.authService.getTokens();
     if (tokens && tokens.accessToken) {
       const authReq = req.clone({
         headers: req.headers.set('x-auth', tokens.accessToken),
       })
-      console.log(req);
+      // console.log(req);
       return next.handle(authReq)
         .pipe(
           catchError((error: HttpErrorResponse) => {
@@ -42,14 +43,14 @@ export class AuthInterceptor implements HttpInterceptor {
             }
             return throwError(() => error);
           }),
-          // finalize(() => this.loaderService.hide())
+          // finalize(() => this.loaderSpinner.hide())
 
         )
     }
     return next.handle(req)
-      // .pipe(
-      //   finalize(() => this.loaderService.hide())
-      // );
+      .pipe(
+        // finalize(() => this.loaderSpinner.hide())
+      );
   }
 
   handle401Error(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -112,38 +113,4 @@ export class AuthInterceptor implements HttpInterceptor {
       );
     }
   }
-
-
-    // //логика обновления токена
-    // return this.authService.refresh()
-    //   .pipe(
-    //     switchMap((result: LoginResponseType | DefaultResponseType) => {
-    //       let error = '';
-    //       if ((result as DefaultResponseType).error !== undefined) {
-    //         error = (result as DefaultResponseType).message;
-    //       }
-    //
-    //       const refreshResult = result as LoginResponseType;
-    //       if (!refreshResult.accessToken || !refreshResult.refreshToken || !refreshResult.userId) {
-    //         error = 'Ошибка авторизации';
-    //       }
-    //
-    //       if (error) {
-    //         return throwError(() => new Error(error));
-    //       }
-    //
-    //       this.authService.setTokens(refreshResult.accessToken, refreshResult.refreshToken);
-    //
-    //       const authReq = req.clone({
-    //         headers: req.headers.set('x-auth', refreshResult.accessToken),
-    //       })
-    //       return next.handle(authReq);
-    //     }),
-    //     catchError(error => {
-    //       this.authService.removeTokens();
-    //       this.router.navigate(['/login']);
-    //       return throwError(() => error);
-    //     })
-    //   )
-
 }

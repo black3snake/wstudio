@@ -22,7 +22,7 @@
     <div class="main-popup-text">Мы свяжемся с вами при первой же возможности.</div>
   </ng-template>
   <div class="main-popup-action" *ngIf="!isLeavedRequested; else leavedRequestedButton">
-    <button class="button" [disabled]="popupMainForm.invalid" (click)="leaveRequest()">Оставить заявку</button>
+    <button class="button" [disabled]="popupMainForm.invalid" (click)="leaveRequest()">Заказать консультацию</button>
   </div>
   <ng-template #leavedRequestedButton>
     <button class="button" (click)="closePopup()">Окей</button>

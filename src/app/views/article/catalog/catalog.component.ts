@@ -7,9 +7,10 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {CategoryService} from "../../../shared/services/category.service";
 import {CategoryType} from "../../../../types/category.type";
-import {debounceTime} from "rxjs";
+import {debounceTime, tap} from "rxjs";
 import {ActiveParamsUtil} from "../../../shared/util/active-params.util";
 import {AppliedFilterType} from "../../../../types/applied-filter.type";
+import {SpinnerService} from "../../../shared/services/spinner.service";
 
 @Component({
   selector: 'app-catalog',
@@ -22,9 +23,9 @@ export class CatalogComponent implements OnInit {
   private _snackBar = inject(MatSnackBar);
   private categoryService = inject(CategoryService);
   private activatedRoute = inject(ActivatedRoute)
+  private loaderSpinner = inject(SpinnerService);
 
   open: boolean = false;
-  enableFilter: boolean = false;
   emptyArticlesInCatalog: boolean = false;
   articles: ArticleType[] = [];
   activeParams: ActiveParamsType = {categories: []};
@@ -33,6 +34,7 @@ export class CatalogComponent implements OnInit {
   appliedFilters: AppliedFilterType[] = [];
 
   ngOnInit(): void {
+
     this.categoryService.getCategories()
       .subscribe(data => {
         this.categories = data;
@@ -40,6 +42,7 @@ export class CatalogComponent implements OnInit {
 
     this.activatedRoute.queryParams
       .pipe(
+        tap(() => this.loaderSpinner.show()),
         debounceTime(500),
       )
       .subscribe((params) => {
@@ -57,8 +60,8 @@ export class CatalogComponent implements OnInit {
             )
           })
         }
-        console.log('appliedFilters');
-        console.log(this.appliedFilters)
+        // console.log('appliedFilters');
+        // console.log(this.appliedFilters)
 
         this.articleService.getArticles(this.activeParams)
           .subscribe({
@@ -82,8 +85,10 @@ export class CatalogComponent implements OnInit {
               }
             }
           })
+        this.loaderSpinner.hide();
 
       });
+
   }
 
 
@@ -110,10 +115,6 @@ export class CatalogComponent implements OnInit {
 
   toggle() {
     this.open = !this.open;
-  }
-
-  toggleFilter() {
-    this.enableFilter = !this.enableFilter;
   }
 
   sort(category: CategoryType) {
