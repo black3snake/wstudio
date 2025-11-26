@@ -16,7 +16,8 @@ export class SliderMainDbService {
         "title": "Продвижение в Instagram для вашего бизнеса <span>-15%</span>!",
         "description": "",
         "image": "banner1.png",
-        "url": "/"
+        "url": "/",
+        service: "Продвижение",
       },
       {
         "id": 2,
@@ -24,7 +25,8 @@ export class SliderMainDbService {
         "title": "Нужен грамотный <span>копирайтер</span>?",
         "description": "Весь декабрь у нас действует акция на работу копирайтера.",
         "image": "banner2.png",
-        "url": "/"
+        "url": "/",
+        service: "Копирайтинг",
       },
       {
         "id": 3,
@@ -32,7 +34,8 @@ export class SliderMainDbService {
         "title": "<span>6 место</span> в ТОП-10 SMM-агенств Москвы!",
         "description": "Мы благодарим каждого, кто голосовал за нас!",
         "image": "banner3.png",
-        "url": "/"
+        "url": "/",
+        service: "Реклама",
       },
     ]
   }

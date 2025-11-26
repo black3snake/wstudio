@@ -10,6 +10,9 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {ReviewService} from "../../shared/services/review.service";
 import {ReviewCardType} from "../../../types/review-card.type";
 import {Router} from "@angular/router";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {take} from "rxjs";
+import {PopupCardComponent} from "../../shared/components/popup-card/popup-card.component";
 
 @Component({
   selector: 'app-main',
@@ -66,13 +69,14 @@ export class MainComponent implements OnInit, OnDestroy {
   servicesMain: ServiceCardType[] = [];
   articles: ArticleType[] = [];
   reviews: ReviewCardType[] = [];
+  dialogRef: MatDialogRef<any> | null = null;
 
   private slidersMain = inject(SliderMainDbService);
   private servicesDbServices = inject(ServiceDbService);
   private articleService = inject(ArticleService);
   private reviewService = inject(ReviewService);
   private router = inject(Router);
-
+  private dialog = inject(MatDialog);
 
 
   ngOnInit(): void {
@@ -89,6 +93,30 @@ export class MainComponent implements OnInit, OnDestroy {
           console.log(err);
         }
       })
+  }
+
+  moreDetails(service: string) {
+    this.dialogRef = this.dialog.open(PopupCardComponent, {
+      data: {
+        service: service,
+      },
+    });
+
+    this.dialogRef.afterOpened()
+      .pipe(take(1))
+      .subscribe(() => {
+        // Убираем aria-hidden с app-root после открытия диалога
+        const appRoot = document.querySelector('app-root');
+        if (appRoot) {
+          appRoot.removeAttribute('aria-hidden');
+        }
+      });
+
+    this.dialogRef.backdropClick()
+      .subscribe(() => {
+        this.dialogRef?.close();
+        this.router.navigate(['/']);
+      });
   }
 
 

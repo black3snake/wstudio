@@ -45,6 +45,10 @@ export class PopupCardComponent implements OnInit {
       this.popupMainForm.patchValue({
         serviceName: this.data.title
       });
+    } else if (this.data && this.data.service) {
+      this.popupMainForm.patchValue({
+        serviceName: this.data.service,
+      });
     }
 
   }

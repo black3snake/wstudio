@@ -9,7 +9,7 @@
               <div class="main__carousel-block-article">{{ slider.article }}</div>
               <div class="main__carousel-block-title" [innerHTML]="slider.title | saveHtml"></div>
               <div class="main__carousel-block-description" *ngIf="slider.description.length > 0">{{ slider.description }}</div>
-              <button type="button" class="button">Подробнее</button>
+              <button type="button" class="button" (click)="moreDetails(slider.service)">Подробнее</button>
             </div>
           </div>
         </ng-template>
@@ -157,11 +157,11 @@
       </div>
       <div class="map__contacts-item map__phone">
         <div class="map__contacts-item-title">Телефон</div>
-        <div class="map__contacts-item-text">+7 (499) 343-13-34</div>
+        <a href="tel:+74993431334" class="map__contacts-item-text">+7 (499) 343-13-34</a>
       </div>
       <div class="map__contacts-item map__email">
         <div class="map__contacts-item-title">Электронный адрес</div>
-        <div class="map__contacts-item-text">info@itstorm.com</div>
+        <a href="mailto:info@itstorm.com" class="map__contacts-item-text">info@itstorm.com</a>
       </div>
       <div class="map__contacts-item map__socials">
         <div class="map__contacts-item-title">Мы в социальных сетях</div>

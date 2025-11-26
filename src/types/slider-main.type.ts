@@ -5,4 +5,5 @@ export type SliderMainType = {
   description: string,
   image: string,
   url: string,
+  service: string,
 }
