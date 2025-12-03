@@ -4,4 +4,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Учебный проект сайта Веб студии.
 
 скрин первой страницы
-![img.png](img.png)
+<p align="center">
+  <img src="img.png" alt="Главная страница приложения" width="400">
+</p>
