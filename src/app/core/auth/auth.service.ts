@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, of, Subject, tap, throwError} from "rxjs";
+import {BehaviorSubject, Observable, of, throwError} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {LoginResponseType} from "../../../types/login-response.type";
 import {DefaultResponseType} from "../../../types/default-response.type";
@@ -44,7 +44,9 @@ export class AuthService {
         refreshToken: tokens.refreshToken
       });
     }
-    throw throwError(() => 'Can not find token');
+    // throw throwError(() => 'Can not find token');
+    // Возвращаем Observable с ошибкой
+    return throwError(() => new Error('Can not find token'));
   }
 
   public getIsLoggedIn(): boolean {
@@ -107,7 +109,9 @@ export class AuthService {
         refreshToken: tokens.refreshToken
       })
     }
-    throw throwError(() => 'Can not use token');
+    // throw throwError(() => 'Can not use token');
+    // Возвращаем Observable с ошибкой
+    return throwError(() => new Error('Can not find token'));
   }
 
 
