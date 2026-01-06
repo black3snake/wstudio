@@ -1,7 +1,7 @@
 SPA - Cайт веб-студии АйтиШторм
 - HTML, SCSS, TypeScript
 - В основе Framework Angular (v16)
-- Технологии: Angular Router, Lazy Loading, RxJS, HTTP-client, Angular material, 
+- Технологии: Angular Router, Lazy Loading, RxJS, HTTP-client, Angular material, <br>
   jwt, ngx-mask, ngx-owl-carousel-o
 - Взаимодействие с локальным бэкендом через Rest API
 - Использование БД MongoDB
