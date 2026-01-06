@@ -1,7 +1,10 @@
-# Wstudio
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
-
-Учебный проект сайта Веб студии.
+SPA - Cайт веб-студии АйтиШторм
+- HTML, SCSS, TypeScript
+- В основе Framework Angular (v16)
+- Технологии: Angular Router, Lazy Loading, RxJS, HTTP-client, Angular material, jwt, ngx-mask, ngx-owl-carousel-o
+- Взаимодействие с локальным бэкендом через Rest API
+- Использование БД MongoDB
+- на VPS сервере https://site078.podderzka-irk.ru
 
 <div align="center">
 
