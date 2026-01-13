@@ -91,20 +91,21 @@ export class DetailComponent implements OnInit {
 
             const allCommentsPrev: CommentsType[] = this.article.comments || [];
 
-            this.commentsService.getActionCommentUserForArticle({articleId: this.article.id})
-              .subscribe({
-                next: dataAction => {
-                  if ((dataAction as DefaultResponseType).error !== undefined) {
-                    throw new Error((dataAction as DefaultResponseType).message);
+            if (this.isLogged) {
+              this.commentsService.getActionCommentUserForArticle({articleId: this.article.id})
+                .subscribe({
+                  next: dataAction => {
+                    if ((dataAction as DefaultResponseType).error !== undefined) {
+                      throw new Error((dataAction as DefaultResponseType).message);
+                    }
+                    this.allActionsArticleOfUsers = dataAction as CommentActionType[];
+                    // console.log(this.allActionsArticleOfUser)
                   }
-                  this.allActionsArticleOfUsers = dataAction as CommentActionType[];
-                  // console.log(this.allActionsArticleOfUser)
-                  this.allComments = this.updateAllComments(allCommentsPrev);
-                  // console.log(this.allComments)
-                  this.updateHasMoreComments();
-                }
-              })
-
+                })
+            }
+            this.allComments = this.updateAllComments(allCommentsPrev);
+            // console.log(this.allComments)
+            this.updateHasMoreComments();
 
             this.articleService.getArticleRelated(this.article.url)
               .subscribe((dataRel: ArticleType[] | DefaultResponseType) => {
